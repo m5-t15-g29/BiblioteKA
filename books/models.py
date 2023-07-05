@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import User
 
 
 class Book(models.Model):
@@ -12,5 +13,22 @@ class Book(models.Model):
 
     users = models.ManyToManyField(
         "users.User",
-        related_name="books",
+        through="BooksUser",
+        related_name="books_follow",
     )
+
+    likes = models.ManyToManyField(
+        "users.User", through="BooksLikes", related_name="books_liked"
+    )
+
+
+class booksLikes(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_liked = models.BooleanField(default=False)
+
+
+class BooksUser(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_follow = models.BooleanField(default=False)
