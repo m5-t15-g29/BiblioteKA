@@ -22,7 +22,7 @@ class Book(models.Model):
     )
 
 
-class booksLikes(models.Model):
+class BooksLikes(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     user_liked = models.BooleanField(default=False)
