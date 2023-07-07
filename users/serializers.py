@@ -60,6 +60,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         return instance
 
+
     def get_books_liked(self, obj):
         books = User.books_liked.through.objects.filter(user__pk=obj.id)
         books_liked = []
@@ -79,3 +80,8 @@ class UserSerializer(serializers.ModelSerializer):
                 {"id": item.id, "name": item.name, "status": item.status}
             )
         return books_follow
+
+class SendEmailSerializer(serializers.Serializer):
+    subject = serializers.CharField()
+    message = serializers.CharField()
+    recipient_list = serializers.ListField()
