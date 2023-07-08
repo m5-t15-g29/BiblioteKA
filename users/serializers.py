@@ -23,7 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
             "password": {"write_only": True},
             "is_superuser": {"required": False, "default": False},
         }
-        read_only_filds = ["is_loan_blocked"]
+        read_only_fields = ["is_loan_blocked"]
 
     username = serializers.CharField(
         validators=[

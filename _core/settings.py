@@ -144,14 +144,14 @@ SIMPLE_JWT = {
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 2,
+    "PAGE_SIZE": 3,
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "BiblioteKA",
-    "DESCRIPTION": "API de gerenciamente de biblioteca",
+    "DESCRIPTION": "API de gerenciamento de biblioteca",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": True,
 }

@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 from .models import Book, BooksUser, BooksLikes
 from users.models import User
 from users.serializers import UserSerializer
@@ -7,7 +8,6 @@ from django.conf import settings
 
 
 class BookSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Book
 
@@ -25,6 +25,17 @@ class BookSerializer(serializers.ModelSerializer):
             "likes_negative",
         ]
 
+        read_only_fields = ["quantity"]
+
+        name = serializers.CharField(
+            validators=[
+                UniqueValidator(
+                    queryset=Book.objects.all(),
+                    message="A book with this name has already been created",
+                )
+            ],
+        )
+
     users_follow = serializers.SerializerMethodField()
     likes_positive = serializers.SerializerMethodField()
     likes_negative = serializers.SerializerMethodField()
@@ -35,7 +46,9 @@ class BookSerializer(serializers.ModelSerializer):
             user_follow = []
             for user in users:
                 item = User.objects.get(id=user.user_id)
-                user_follow.append({"id": item.id, "name": item.name, "email": item.email})
+                user_follow.append(
+                    {"id": item.id, "name": item.name, "email": item.email}
+                )
         except Book.DoesNotExist:
             return []
         return user_follow
