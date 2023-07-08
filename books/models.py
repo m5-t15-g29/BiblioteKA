@@ -3,12 +3,12 @@ from users.models import User
 
 
 class Book(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     status = models.BooleanField(default=False)
     author = models.CharField(max_length=50)
     sinopse = models.TextField()
     publisher = models.CharField(max_length=150)
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     users = models.ManyToManyField(
@@ -31,4 +31,4 @@ class BooksLikes(models.Model):
 class BooksUser(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    user_follow = models.BooleanField(default=False)
+    user_follow = models.BooleanField(default=True)

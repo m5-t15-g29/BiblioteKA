@@ -20,12 +20,6 @@ import dotenv
 
 dotenv.load_dotenv()
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_USE_TLS = True
-EMAIL_HOST = os.getenv("EMAIL_HOST")
-EMAIL_PORT = os.getenv("EMAIL_PORT")
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -150,14 +144,14 @@ SIMPLE_JWT = {
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 2,
+    "PAGE_SIZE": 3,
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "BiblioteKA",
-    "DESCRIPTION": "API de gerenciamente de biblioteca",
+    "DESCRIPTION": "API de gerenciamento de biblioteca",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": True,
 }
@@ -185,3 +179,10 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "users.User"
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = True
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
