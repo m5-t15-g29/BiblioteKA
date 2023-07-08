@@ -31,4 +31,4 @@ class BooksLikes(models.Model):
 class BooksUser(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    user_follow = models.BooleanField(default=False)
+    user_follow = models.BooleanField(default=True)
