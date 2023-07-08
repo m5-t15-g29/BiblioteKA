@@ -35,7 +35,7 @@ class BookSerializer(serializers.ModelSerializer):
             user_follow = []
             for user in users:
                 item = User.objects.get(id=user.user_id)
-                user_follow.append({"id": item.id, "name": item.name})
+                user_follow.append({"id": item.id, "name": item.name, "email": item.email})
         except Book.DoesNotExist:
             return []
         return user_follow
