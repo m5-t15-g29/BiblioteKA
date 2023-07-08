@@ -1,0 +1,34 @@
+from rest_framework import serializers
+from .models import Loan
+from users.serializers import UserSerializer
+from copies.serializers import CopieSerializer
+from datetime import datetime
+
+
+class LoanSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    copie = CopieSerializer(read_only=True)
+
+    class Meta:
+        model = Loan
+        fields = ("id", "create_at", "return_date", "returned_date", "copie", "user")
+        read_only_fields = [
+            "create_at",
+            "return_date",
+            "returned_date",
+        ]
+
+    def create(self, validated_data):
+        user = validated_data.pop("user")
+        copie = validated_data.pop("copie")
+
+        now = datetime.now()
+        return_date = datetime(now.year, now.month, (now.day + 2))
+        if return_date.strftime("%w") == 6:
+            return_date = datetime(now.year, now.month, (now.day + 3))
+        elif return_date.strftime("%w") == 2:
+            return_date = datetime(now.year, now.month, (now.day + 4))
+
+        validated_data["return_date"] = return_date
+
+        return Loan.objects.create(**validated_data, user=user, copie=copie)
