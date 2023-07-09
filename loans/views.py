@@ -1,9 +1,7 @@
-from django.shortcuts import render
-from users.models import User
 from copies.models import Copie
 from .models import Loan
 from .serializers import LoanSerializer
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .errors import LoanBlockedError
 
@@ -26,3 +24,10 @@ class LoanView(ListCreateAPIView):
             return
         except LoanBlockedError as err:
             return err.message
+
+
+class LoanDetailedView(RetrieveUpdateAPIView):
+    authentication_classes = [JWTAuthentication]
+    queryset = Loan.objects.all()
+    serializer_class = LoanSerializer
+    lookup_url_kwarg = "loan_id"

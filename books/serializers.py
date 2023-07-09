@@ -69,7 +69,7 @@ class BookSerializer(serializers.ModelSerializer):
                 user_likes = user_likes + 1
         return user_likes
 
-    def updated(self, instance: Book, validated_data: dict) -> Book:
+    def update(self, instance: Book, validated_data: dict) -> Book:
         for key, value in validated_data.items():
             setattr(instance, key, value)
         if instance.status:
