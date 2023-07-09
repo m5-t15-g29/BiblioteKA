@@ -106,6 +106,10 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]
+
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 if DATABASE_URL:

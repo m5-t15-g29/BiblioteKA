@@ -11,5 +11,3 @@ urlpatterns = [
     path("books/<int:pk>/like", views.BookLikeView.as_view()),
     path("books/<int:pk>/copies", CopieView.as_view()),
 ]
- 
- 

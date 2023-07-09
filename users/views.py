@@ -4,8 +4,8 @@ from .models import User
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .serializers import UserSerializer
 from .permissions import IsAccountOwnerOrIsSuperuser
-from rest_framework.views import APIView, Response, Request
-
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenObtainPairSerializer
 
 
 class UserView(CreateAPIView):
@@ -18,3 +18,8 @@ class UserDetailView(RetrieveUpdateDestroyAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+    serializer_class.username_field = "email"

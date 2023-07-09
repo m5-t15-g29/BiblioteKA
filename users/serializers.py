@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from .models import User
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.contrib.auth import get_user_model
 from books.models import Book
-from django.forms.models import model_to_dict
+from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -60,7 +61,6 @@ class UserSerializer(serializers.ModelSerializer):
 
         return instance
 
-
     def get_books_liked(self, obj):
         books = User.books_liked.through.objects.filter(user__pk=obj.id)
         books_liked = []
@@ -80,3 +80,25 @@ class UserSerializer(serializers.ModelSerializer):
                 {"id": item.id, "name": item.name, "status": item.status}
             )
         return books_follow
+
+
+User = get_user_model()
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        email = attrs.get("email")
+        password = attrs.get("password")
+
+        if email and password:
+            user = User.objects.filter(email=email).first()
+
+            if user and user.check_password(password):
+                refresh = self.get_token(user)
+                data = {
+                    "refresh": str(refresh),
+                    "access": str(refresh.access_token),
+                }
+                return data
+
+        raise serializers.ValidationError("Credenciais inválidas.")
