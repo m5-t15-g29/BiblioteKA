@@ -22,7 +22,7 @@ class BookSerializer(serializers.ModelSerializer):
             "created_at",
             "users_follow",
             "likes_positive",
-            "likes_negative",
+            "dislikes",
         ]
 
         read_only_fields = ["quantity"]
@@ -38,7 +38,7 @@ class BookSerializer(serializers.ModelSerializer):
 
     users_follow = serializers.SerializerMethodField()
     likes_positive = serializers.SerializerMethodField()
-    likes_negative = serializers.SerializerMethodField()
+    dislikes = serializers.SerializerMethodField()
 
     def get_users_follow(self, obj):
         try:
@@ -61,7 +61,7 @@ class BookSerializer(serializers.ModelSerializer):
                 user_likes = user_likes + 1
         return user_likes
 
-    def get_likes_negative(self, obj):
+    def get_dislikes(self, obj):
         users = Book.likes.through.objects.filter(book__pk=obj.id)
         user_likes = 0
         for user in users:
