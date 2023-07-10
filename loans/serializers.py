@@ -3,6 +3,7 @@ from .models import Loan
 from users.serializers import UserSerializer
 from copies.serializers import CopieSerializer
 from datetime import datetime
+from copies.models import Copie
 
 
 class LoanSerializer(serializers.ModelSerializer):
@@ -39,6 +40,9 @@ class LoanSerializer(serializers.ModelSerializer):
     def update(self, instance: Loan, validated_data: dict):
         validated_data["returned_date"] = datetime.now()
 
+        copie = Copie.objects.get(id=instance.copie_id)
+        copie.is_loaned = False
+        copie.save()
         for key, value in validated_data.items():
             setattr(instance, key, value)
 
