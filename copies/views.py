@@ -17,8 +17,11 @@ class CopieView(generics.ListCreateAPIView):
         return Copie.objects.filter(book_id=self.kwargs["pk"])
 
     def perform_create(self, serializer):
+        quantity = self.request.data.pop("quantity")
         book = Book.objects.get(id=self.kwargs["pk"])
-        return serializer.save(book=book)
+        # return serializer.save(book=book)
+        copies = [serializer.save(book=book) for copie in range(quantity)]
+        print(copies)
 
 
 class CopieDetailView(generics.RetrieveUpdateDestroyAPIView):
