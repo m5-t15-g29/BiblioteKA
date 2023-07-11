@@ -6,6 +6,7 @@ from .serializers import UserSerializer
 from .permissions import IsAccountOwnerOrIsSuperuser
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import CustomTokenObtainPairSerializer
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 
 
 class UserView(CreateAPIView):
@@ -16,6 +17,14 @@ class UserDetailView(RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAccountOwnerOrIsSuperuser]
 
+    # @extend_schema(
+    #     operation_id='create user',
+    #     parameters=[
+    #         UserSerializer,
+
+    #     ]
+    # )
+    
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
