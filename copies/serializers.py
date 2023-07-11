@@ -13,6 +13,7 @@ class CopieSerializer(serializers.ModelSerializer):
         fields = ("id", "is_loaned", "book")
 
     def create(self, validated_data):
+        
         book_filtered = validated_data.pop("book")
         book_filtered.quantity = book_filtered.quantity + 1
         book_filtered.status = True
@@ -21,7 +22,7 @@ class CopieSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         book = Book.objects.get(id=instance.book_id)
-        if validated_data["is_loaned"]:
+        if instance.is_loaned:
             book.quantity = book.quantity - 1
         else:
             book.quantity = book.quantity + 1

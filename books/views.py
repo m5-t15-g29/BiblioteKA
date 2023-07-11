@@ -4,7 +4,7 @@ from rest_framework.generics import (
     CreateAPIView,
 )
 from .serializers import BookSerializer, BooksLikesSerializer, BooksUserSerializer
-from .models import Book, BooksLikes, BooksUser
+from .models import Book
 from .permissions import IsSuperuserOrReadOnly
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
