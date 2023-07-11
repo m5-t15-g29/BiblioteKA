@@ -3,12 +3,12 @@ from .models import Copie
 from books.models import Book
 from .serializers import CopieSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticated
+from books.permissions import IsSuperuserOrReadOnly
 
 
 class CopieView(generics.ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsSuperuserOrReadOnly]
     queryset = Copie.objects.all()
     serializer_class = CopieSerializer
     lookup_url_kwarg = "pk"
@@ -26,6 +26,6 @@ class CopieView(generics.ListCreateAPIView):
 
 class CopieDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsSuperuserOrReadOnly]
     queryset = Copie.objects.all()
     serializer_class = CopieSerializer

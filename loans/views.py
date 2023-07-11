@@ -4,12 +4,20 @@ from .serializers import LoanSerializer
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .errors import LoanBlockedError, CopiesInsusicient
+from rest_framework.permissions import IsAuthenticated
+from users.permissions import IsAccountOwnerOrIsSuperuser
 
 
 class LoanView(ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Loan.objects.all()
     serializer_class = LoanSerializer
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Loan.objects.all()
+        return Loan.objects.filter(user_id__pk=self.request.user.id)
 
     def perform_create(self, serializer):
         try:
@@ -27,6 +35,7 @@ class LoanView(ListCreateAPIView):
 
 class LoanDetailedView(RetrieveUpdateAPIView):
     authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAccountOwnerOrIsSuperuser]
     queryset = Loan.objects.all()
     serializer_class = LoanSerializer
     lookup_url_kwarg = "loan_id"
