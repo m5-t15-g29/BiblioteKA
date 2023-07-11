@@ -16,6 +16,7 @@ class LoanView(ListCreateAPIView):
             copie_filtered = Copie.objects.filter(book_id__pk=self.kwargs["pk"]).filter(
                 is_loaned__exact=False
             )
+            print(copie_filtered)
             if not self.request.user.is_loan_blocked:
                 return serializer.save(copie=copie_filtered[0], user=self.request.user)
             else:

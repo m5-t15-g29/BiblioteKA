@@ -11,5 +11,6 @@ urlpatterns = [
     path("books/<int:pk>/follow", views.BookFollowView.as_view()),
     path("books/<int:pk>/like", views.BookLikeView.as_view()),
     path("books/<int:pk>/copies", CopieView.as_view()),
-    path("books/<int:pk>/loans/<int:loan_id>", LoanView.as_view()),
+    path("books/<int:pk>/loans", LoanView.as_view()),
+    path("books/<int:pk>/loans/<int:loan_id>", LoanDetailedView.as_view()),
 ]
