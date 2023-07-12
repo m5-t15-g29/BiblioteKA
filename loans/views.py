@@ -21,14 +21,11 @@ class LoanView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         try:
-            # copie_filtered = Copie.objects.filter(book_id__pk=self.kwargs["pk"]).filter(
-            #     is_loaned__exact=False
-            # )
-            copie_filtered = Copie.objects.get(book_id=self.kwargs["pk"])
+            copie_filtered = Copie.objects.filter(book_id__pk=self.kwargs["pk"]).filter(
+                is_loaned__exact=False
+            )
             if not copie_filtered:
-                raise CopiesInsusicient("This book has no copie available", 404)
-            # except CopiesInsusicient as err:
-            #     return err.message
+                raise CopiesInsusicient("This book has no copie available")
             if not self.request.user.is_loan_blocked:
                 return serializer.save(copie=copie_filtered[0], user=self.request.user)
             raise LoanBlockedError("User does not have permission to loan books")
