@@ -27,6 +27,9 @@ class BooksLikes(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     user_liked = models.BooleanField(default=False)
 
+    class Meta:
+        unique_together = ("book", "user")
+
 
 class BooksUser(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)

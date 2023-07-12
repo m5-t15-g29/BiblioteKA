@@ -105,3 +105,12 @@ class BooksLikesSerializer(serializers.ModelSerializer):
         fields = ["id", "user", "book", "user_liked"]
 
         extra_kwargs = {"user_liked": {"required": False, "default": False}}
+
+        # book = serializers.CharField(
+        #     validators=[
+        #         UniqueValidator(
+        #             queryset=User.objects.all(),
+        #             message="This book has no copie available.",
+        #         )
+        #     ],
+        # )

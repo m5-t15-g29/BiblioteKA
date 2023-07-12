@@ -16,14 +16,6 @@ class UserView(CreateAPIView):
 class UserDetailView(RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAccountOwnerOrIsSuperuser]
-
-    # @extend_schema(
-    #     operation_id='create user',
-    #     parameters=[
-    #         UserSerializer,
-
-    #     ]
-    # )
     
     queryset = User.objects.all()
     serializer_class = UserSerializer
